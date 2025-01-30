@@ -2,39 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
-  // Check if Supabase environment variables are present
-  const hasSupabaseConfig = !!(
-    import.meta.env.VITE_SUPABASE_URL &&
-    import.meta.env.VITE_SUPABASE_ANON_KEY
-  );
-
-  // If Supabase isn't configured, show a message
-  if (!hasSupabaseConfig) {
-    return (
-      <div className="min-h-screen bg-dark flex items-center justify-center px-4">
-        <div className="max-w-md w-full space-y-8 bg-dark-secondary p-8 rounded-lg shadow-lg text-center">
-          <h1 className="text-2xl font-bold text-white">Setup Required</h1>
-          <p className="text-gray-400">
-            Please connect your project to Supabase to enable authentication.
-            You can do this by clicking on the Supabase menu in the top right
-            of the interface.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Initialize Supabase client only if config is present
-  const supabase = createClient(
-    import.meta.env.VITE_SUPABASE_URL,
-    import.meta.env.VITE_SUPABASE_ANON_KEY
-  );
-
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
