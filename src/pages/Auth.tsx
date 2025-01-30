@@ -2,9 +2,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import { createClientComponentClient } from "@supabase/auth-helpers-react";
+import { createClient } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
+
+// Initialize Supabase client
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -17,7 +23,6 @@ const Auth = () => {
 
   const navigate = useNavigate();
   const { toast } = useToast();
-  const supabase = createClientComponentClient();
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
