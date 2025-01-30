@@ -6,6 +6,10 @@ import { createClient } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
 
+if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+  throw new Error("Missing Supabase environment variables");
+}
+
 // Initialize Supabase client
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,

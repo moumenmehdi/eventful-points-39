@@ -12,6 +12,13 @@ import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
+console.log("Supabase URL:", import.meta.env.VITE_SUPABASE_URL);
+console.log("Supabase Anon Key:", import.meta.env.VITE_SUPABASE_ANON_KEY ? "Present" : "Missing");
+
+if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+  throw new Error("Missing Supabase environment variables");
+}
+
 // Initialize Supabase client
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
