@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Menu from "./pages/Menu";
+import QRCode from "./pages/QRCode";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,14 @@ const App = () => (
             }
           />
           <Route path="/auth" element={<Auth />} />
+          <Route
+            path="/qrcode"
+            element={
+              <ProtectedRoute>
+                <QRCode />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/profile"
             element={

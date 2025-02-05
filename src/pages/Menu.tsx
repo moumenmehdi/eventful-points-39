@@ -2,6 +2,7 @@
 import { ArrowLeft, Gift, ListChecks, FileText, User, Bell, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { BottomNav } from "@/components/BottomNav";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Menu = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-dark pb-16">
       <div className="p-4 flex items-center space-x-4 border-b border-gray-800">
         <button onClick={() => navigate(-1)} className="text-white">
           <ArrowLeft className="w-6 h-6" />
@@ -61,7 +62,7 @@ const Menu = () => {
         ))}
       </div>
 
-      <div className="absolute bottom-20 left-0 right-0 p-4">
+      <div className="fixed bottom-20 left-0 right-0 p-4">
         <button
           onClick={handleLogout}
           className="w-full p-4 text-center text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
@@ -72,6 +73,7 @@ const Menu = () => {
           Version: 3.24.0
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 };

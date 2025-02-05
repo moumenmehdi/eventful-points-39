@@ -1,5 +1,5 @@
 
-import { HomeIcon, HeartIcon, UserIcon } from "lucide-react";
+import { HomeIcon, HeartIcon, QrCodeIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 export const BottomNav = () => {
@@ -29,13 +29,13 @@ export const BottomNav = () => {
           <span className="text-xs">My Events</span>
         </Link>
         <Link
-          to="/profile"
+          to="/qrcode"
           className={`flex flex-col items-center ${
-            isActive("/profile") ? "text-accent" : "text-gray-400"
+            isActive("/qrcode") ? "text-accent" : "text-gray-400"
           }`}
         >
-          <UserIcon className="w-6 h-6 mb-1" />
-          <span className="text-xs">Profile</span>
+          <QrCodeIcon className="w-6 h-6 mb-1" />
+          <span className="text-xs">QR Code</span>
         </Link>
       </div>
     </nav>
