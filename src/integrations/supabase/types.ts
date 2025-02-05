@@ -9,7 +9,96 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      backgrounds: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          type: string
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          type: string
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          type?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      music_tracks: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      scripts: {
+        Row: {
+          background_id: string | null
+          content: string
+          created_at: string | null
+          id: string
+          music_id: string | null
+          notification_sound: boolean | null
+          title: string
+        }
+        Insert: {
+          background_id?: string | null
+          content: string
+          created_at?: string | null
+          id?: string
+          music_id?: string | null
+          notification_sound?: boolean | null
+          title: string
+        }
+        Update: {
+          background_id?: string | null
+          content?: string
+          created_at?: string | null
+          id?: string
+          music_id?: string | null
+          notification_sound?: boolean | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scripts_background_id_fkey"
+            columns: ["background_id"]
+            isOneToOne: false
+            referencedRelation: "backgrounds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scripts_music_id_fkey"
+            columns: ["music_id"]
+            isOneToOne: false
+            referencedRelation: "music_tracks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
