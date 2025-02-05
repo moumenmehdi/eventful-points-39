@@ -33,6 +33,77 @@ export type Database = {
         }
         Relationships: []
       }
+      event_registrations: {
+        Row: {
+          created_at: string | null
+          event_id: string | null
+          id: string
+          qr_code: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_id?: string | null
+          id?: string
+          qr_code?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_id?: string | null
+          id?: string
+          qr_code?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string | null
+          date: string
+          description: string | null
+          duration: number
+          id: string
+          instructor: string
+          location: string
+          max_capacity: number
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          description?: string | null
+          duration: number
+          id?: string
+          instructor: string
+          location: string
+          max_capacity: number
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          description?: string | null
+          duration?: number
+          id?: string
+          instructor?: string
+          location?: string
+          max_capacity?: number
+          title?: string
+        }
+        Relationships: []
+      }
       music_tracks: {
         Row: {
           created_at: string | null
