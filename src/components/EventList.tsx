@@ -15,6 +15,11 @@ type Event = {
   location: string;
   max_capacity: number;
   description: string;
+  contact_phone?: string;
+  contact_email?: string;
+  address_line1?: string;
+  address_line2?: string;
+  city?: string;
 };
 
 export const EventList = () => {
@@ -38,25 +43,45 @@ export const EventList = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("event_registrations")
-        .select("event_id")
-        .eq("user_id", (await supabase.auth.getUser()).data.user?.id);
+        .select("event_id");
 
       if (error) throw error;
       return data;
     },
   });
 
-  const registeredEventIds = registrations?.map((reg) => reg.event_id) || [];
+  const { data: userRegistrations } = useQuery({
+    queryKey: ["user-registrations"],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
+
+      const { data, error } = await supabase
+        .from("event_registrations")
+        .select("event_id")
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+      return data;
+    },
+  });
 
   if (isLoading) {
     return <div className="text-white">Loading events...</div>;
   }
 
+  const registrationCounts = registrations?.reduce((acc, reg) => {
+    acc[reg.event_id] = (acc[reg.event_id] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const userRegisteredEventIds = userRegistrations?.map((reg) => reg.event_id) || [];
+
   const upcomingEvents = events?.filter(
     (event) => new Date(event.date) > new Date()
   );
   const registeredEvents = events?.filter((event) =>
-    registeredEventIds.includes(event.id)
+    userRegisteredEventIds.includes(event.id)
   );
 
   return (
@@ -79,7 +104,7 @@ export const EventList = () => {
       </TabsList>
 
       <TabsContent value="upcoming" className="m-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           {upcomingEvents?.map((event) => (
             <EventCard
               key={event.id}
@@ -89,14 +114,21 @@ export const EventList = () => {
               location={event.location}
               instructor={event.instructor}
               description={event.description || ""}
-              isRegistered={registeredEventIds.includes(event.id)}
+              maxCapacity={event.max_capacity}
+              contactPhone={event.contact_phone}
+              contactEmail={event.contact_email}
+              addressLine1={event.address_line1}
+              addressLine2={event.address_line2}
+              city={event.city}
+              isRegistered={userRegisteredEventIds.includes(event.id)}
+              registrationCount={registrationCounts?.[event.id] || 0}
             />
           ))}
         </div>
       </TabsContent>
 
       <TabsContent value="registered" className="m-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           {registeredEvents?.map((event) => (
             <EventCard
               key={event.id}
@@ -106,7 +138,14 @@ export const EventList = () => {
               location={event.location}
               instructor={event.instructor}
               description={event.description || ""}
+              maxCapacity={event.max_capacity}
+              contactPhone={event.contact_phone}
+              contactEmail={event.contact_email}
+              addressLine1={event.address_line1}
+              addressLine2={event.address_line2}
+              city={event.city}
               isRegistered={true}
+              registrationCount={registrationCounts?.[event.id] || 0}
             />
           ))}
         </div>

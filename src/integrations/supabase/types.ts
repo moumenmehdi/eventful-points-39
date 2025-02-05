@@ -70,6 +70,11 @@ export type Database = {
       }
       events: {
         Row: {
+          address_line1: string | null
+          address_line2: string | null
+          city: string | null
+          contact_email: string | null
+          contact_phone: string | null
           created_at: string | null
           date: string
           description: string | null
@@ -81,6 +86,11 @@ export type Database = {
           title: string
         }
         Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           created_at?: string | null
           date: string
           description?: string | null
@@ -92,6 +102,11 @@ export type Database = {
           title: string
         }
         Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
           created_at?: string | null
           date?: string
           description?: string | null
