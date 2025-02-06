@@ -3,19 +3,15 @@ import { supabase } from "@/integrations/supabase/client";
 export const setAdminStatus = async (email: string, isAdmin: boolean = true) => {
   console.log('Setting admin status for email:', email);
   
-  // First get the user's profile
-  const { data: userData, error: userError } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('id', (await supabase.auth.getUser(email)).data.user?.id)
-    .single();
-
+  // First get the user's ID from their email
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  
   if (userError) {
     console.error('Error fetching user:', userError);
     throw userError;
   }
 
-  if (!userData) {
+  if (!user) {
     console.error('User not found');
     throw new Error('User not found');
   }
@@ -24,7 +20,7 @@ export const setAdminStatus = async (email: string, isAdmin: boolean = true) => 
   const { error: updateError } = await supabase
     .from('profiles')
     .update({ is_admin: isAdmin })
-    .eq('id', userData.id);
+    .eq('id', user.id);
 
   if (updateError) {
     console.error('Error updating admin status:', updateError);
