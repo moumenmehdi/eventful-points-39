@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EventCard } from "@/components/EventCard";
 import { format } from "date-fns";
+import { Wallet } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type Event = {
   id: string;
@@ -24,6 +26,7 @@ type Event = {
 
 export const EventList = () => {
   const [selectedTab, setSelectedTab] = useState("upcoming");
+  const navigate = useNavigate();
 
   const { data: events, isLoading } = useQuery({
     queryKey: ["events"],
@@ -95,11 +98,12 @@ export const EventList = () => {
           Upcoming Events
         </TabsTrigger>
         <TabsTrigger
-          value="registered"
+          value="points"
           className="flex-1 data-[state=active]:bg-accent"
-          onClick={() => setSelectedTab("registered")}
+          onClick={() => navigate("/add-points")}
         >
-          My Events
+          <Wallet className="w-4 h-4 mr-2" />
+          Add Points
         </TabsTrigger>
       </TabsList>
 
@@ -127,27 +131,9 @@ export const EventList = () => {
         </div>
       </TabsContent>
 
-      <TabsContent value="registered" className="m-0">
-        <div className="grid grid-cols-1 gap-4">
-          {registeredEvents?.map((event) => (
-            <EventCard
-              key={event.id}
-              id={event.id}
-              title={event.title}
-              date={format(new Date(event.date), "MMM d @ h:mm a")}
-              location={event.location}
-              instructor={event.instructor}
-              description={event.description || ""}
-              maxCapacity={event.max_capacity}
-              contactPhone={event.contact_phone}
-              contactEmail={event.contact_email}
-              addressLine1={event.address_line1}
-              addressLine2={event.address_line2}
-              city={event.city}
-              isRegistered={true}
-              registrationCount={registrationCounts?.[event.id] || 0}
-            />
-          ))}
+      <TabsContent value="points" className="m-0">
+        <div className="text-center py-8">
+          <p className="text-gray-400">Click "Add Points" to purchase points packages</p>
         </div>
       </TabsContent>
     </Tabs>

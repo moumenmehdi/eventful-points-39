@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import Menu from "./pages/Menu";
 import QRCode from "./pages/QRCode";
+import AddPoints from "./pages/AddPoints";
 
 const queryClient = new QueryClient();
 
@@ -82,6 +83,14 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <Menu />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-points"
+            element={
+              <ProtectedRoute>
+                <AddPoints />
               </ProtectedRoute>
             }
           />
