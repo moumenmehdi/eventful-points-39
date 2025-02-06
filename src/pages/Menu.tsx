@@ -1,17 +1,47 @@
-import { ArrowLeft, Gift, User, Bell, LogOut } from "lucide-react";
+import { ArrowLeft, Gift, User, Bell, LogOut, Calendar, Code } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { BottomNav } from "@/components/BottomNav";
+import { useEffect, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Menu = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching admin status:', error);
+          return;
+        }
+
+        setIsAdmin(profile?.is_admin || false);
+      } catch (error) {
+        console.error('Error checking admin status:', error);
+      }
+    };
+
+    checkAdminStatus();
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/auth");
   };
 
-  const menuItems = [
+  const regularMenuItems = [
     {
       title: "Paramètres du compte",
       items: [
@@ -26,6 +56,18 @@ const Menu = () => {
       ],
     },
   ];
+
+  const adminMenuItems = [
+    {
+      title: "Administration",
+      items: [
+        { icon: Calendar, label: "Ajouter un événement", path: "/admin/add-event" },
+        { icon: Code, label: "Gérer les codes", path: "/admin/manage-codes" },
+      ],
+    },
+  ];
+
+  const menuItems = isAdmin ? [...adminMenuItems, ...regularMenuItems] : regularMenuItems;
 
   return (
     <div className="min-h-screen bg-dark pb-16">
