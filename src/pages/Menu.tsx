@@ -1,5 +1,4 @@
-
-import { ArrowLeft, Gift, ListChecks, FileText, User, Bell, LogOut } from "lucide-react";
+import { ArrowLeft, Gift, User, Bell, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { BottomNav } from "@/components/BottomNav";
@@ -16,9 +15,7 @@ const Menu = () => {
     {
       title: "Paramètres du compte",
       items: [
-        { icon: Gift, label: "Carte Cadeau / Code Promo", path: "/gift" },
-        { icon: ListChecks, label: "Réservations", path: "/reservations" },
-        { icon: FileText, label: "Facturations", path: "/billing" },
+        { icon: Gift, label: "Carte Cadeau / Code Promo", path: "/gift-code" },
       ],
     },
     {

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,7 @@ import Profile from "./pages/Profile";
 import Menu from "./pages/Menu";
 import QRCode from "./pages/QRCode";
 import AddPoints from "./pages/AddPoints";
+import GiftCode from "./pages/GiftCode";
 
 const queryClient = new QueryClient();
 
@@ -91,6 +91,14 @@ const App = () => (
             element={
               <ProtectedRoute>
                 <AddPoints />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gift-code"
+            element={
+              <ProtectedRoute>
+                <GiftCode />
               </ProtectedRoute>
             }
           />
