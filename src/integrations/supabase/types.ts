@@ -119,6 +119,33 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          created_at: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          points: number | null
+          is_admin: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          points?: number | null
+          is_admin?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          points?: number | null
+          is_admin?: boolean | null
+        }
+        Relationships: []
+      }
       music_tracks: {
         Row: {
           created_at: string | null
@@ -137,30 +164,6 @@ export type Database = {
           id?: string
           name?: string
           url?: string
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string | null
-          first_name: string | null
-          id: string
-          last_name: string | null
-          points: number | null
-        }
-        Insert: {
-          created_at?: string | null
-          first_name?: string | null
-          id: string
-          last_name?: string | null
-          points?: number | null
-        }
-        Update: {
-          created_at?: string | null
-          first_name?: string | null
-          id?: string
-          last_name?: string | null
-          points?: number | null
         }
         Relationships: []
       }
@@ -234,7 +237,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -288,10 +291,10 @@ export type TablesUpdate<
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
+      Update: infer U
+    }
+    ? U
+    : never
     : never
 
 export type Enums<
