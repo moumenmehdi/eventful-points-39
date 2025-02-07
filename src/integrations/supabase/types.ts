@@ -119,6 +119,68 @@ export type Database = {
         }
         Relationships: []
       }
+      gift_code_redemptions: {
+        Row: {
+          code_id: string | null
+          id: string
+          redeemed_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          code_id?: string | null
+          id?: string
+          redeemed_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          code_id?: string | null
+          id?: string
+          redeemed_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gift_code_redemptions_code_id_fkey"
+            columns: ["code_id"]
+            isOneToOne: false
+            referencedRelation: "gift_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gift_codes: {
+        Row: {
+          code: string
+          created_at: string | null
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          max_uses: number
+          max_uses_per_user: number
+          points: number
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          max_uses: number
+          max_uses_per_user: number
+          points: number
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          max_uses?: number
+          max_uses_per_user?: number
+          points?: number
+        }
+        Relationships: []
+      }
       music_tracks: {
         Row: {
           created_at: string | null

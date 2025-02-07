@@ -61,8 +61,8 @@ const Menu = () => {
     {
       title: "Administration",
       items: [
-        { icon: Calendar, label: "Ajouter un événement", path: "/admin/add-event" },
-        { icon: Code, label: "Gérer les codes", path: "/admin/manage-codes" },
+        { icon: Calendar, label: "Gérer les événements", path: "/admin/events" },
+        { icon: Code, label: "Gérer les codes", path: "/admin/codes" },
       ],
     },
   ];
