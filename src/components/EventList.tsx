@@ -5,8 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EventCard } from "@/components/EventCard";
 import { format } from "date-fns";
-import { Wallet, CalendarCheck } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { CalendarCheck } from "lucide-react";
 
 type Event = {
   id: string;
@@ -26,8 +25,7 @@ type Event = {
 
 export const EventList = () => {
   const [selectedTab, setSelectedTab] = useState("upcoming");
-  const navigate = useNavigate();
-
+  
   const { data: events, isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: async () => {
@@ -89,7 +87,7 @@ export const EventList = () => {
 
   return (
     <Tabs defaultValue="upcoming" className="w-full">
-      <TabsList className="w-full bg-dark-secondary mb-6 grid grid-cols-3">
+      <TabsList className="w-full bg-dark-secondary mb-6 grid grid-cols-2">
         <TabsTrigger
           value="upcoming"
           className="flex-1 data-[state=active]:bg-accent"
@@ -104,14 +102,6 @@ export const EventList = () => {
         >
           <CalendarCheck className="w-4 h-4 mr-2" />
           My Events
-        </TabsTrigger>
-        <TabsTrigger
-          value="points"
-          className="flex-1 data-[state=active]:bg-accent"
-          onClick={() => navigate("/add-points")}
-        >
-          <Wallet className="w-4 h-4 mr-2" />
-          Add Points
         </TabsTrigger>
       </TabsList>
 
@@ -165,12 +155,6 @@ export const EventList = () => {
               You haven't registered for any events yet.
             </div>
           )}
-        </div>
-      </TabsContent>
-
-      <TabsContent value="points" className="m-0">
-        <div className="text-center py-8">
-          <p className="text-gray-400">Click "Add Points" to purchase points packages</p>
         </div>
       </TabsContent>
     </Tabs>
