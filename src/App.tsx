@@ -2,7 +2,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { EventList } from "@/components/EventList";
+import Index from "@/pages/Index";
 import Menu from "@/pages/Menu";
 import GiftCode from "@/pages/GiftCode";
 import ManageEvents from "@/pages/admin/ManageEvents";
@@ -15,7 +15,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<EventList />} />
+          <Route path="/" element={<Index />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/gift-code" element={<GiftCode />} />
           <Route path="/admin/events" element={<ManageEvents />} />
