@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EventCard } from "@/components/EventCard";
 import { format } from "date-fns";
-import { Wallet } from "lucide-react";
+import { Wallet, CalendarCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 type Event = {
@@ -89,13 +89,21 @@ export const EventList = () => {
 
   return (
     <Tabs defaultValue="upcoming" className="w-full">
-      <TabsList className="w-full bg-dark-secondary mb-6">
+      <TabsList className="w-full bg-dark-secondary mb-6 grid grid-cols-3">
         <TabsTrigger
           value="upcoming"
           className="flex-1 data-[state=active]:bg-accent"
           onClick={() => setSelectedTab("upcoming")}
         >
           Upcoming Events
+        </TabsTrigger>
+        <TabsTrigger
+          value="myevents"
+          className="flex-1 data-[state=active]:bg-accent"
+          onClick={() => setSelectedTab("myevents")}
+        >
+          <CalendarCheck className="w-4 h-4 mr-2" />
+          My Events
         </TabsTrigger>
         <TabsTrigger
           value="points"
@@ -128,6 +136,35 @@ export const EventList = () => {
               registrationCount={registrationCounts?.[event.id] || 0}
             />
           ))}
+        </div>
+      </TabsContent>
+
+      <TabsContent value="myevents" className="m-0">
+        <div className="grid grid-cols-1 gap-4">
+          {registeredEvents?.map((event) => (
+            <EventCard
+              key={event.id}
+              id={event.id}
+              title={event.title}
+              date={format(new Date(event.date), "MMM d @ h:mm a")}
+              location={event.location}
+              instructor={event.instructor}
+              description={event.description || ""}
+              maxCapacity={event.max_capacity}
+              contactPhone={event.contact_phone}
+              contactEmail={event.contact_email}
+              addressLine1={event.address_line1}
+              addressLine2={event.address_line2}
+              city={event.city}
+              isRegistered={true}
+              registrationCount={registrationCounts?.[event.id] || 0}
+            />
+          ))}
+          {registeredEvents?.length === 0 && (
+            <div className="text-center py-8 text-gray-400">
+              You haven't registered for any events yet.
+            </div>
+          )}
         </div>
       </TabsContent>
 

@@ -123,18 +123,21 @@ export type Database = {
         Row: {
           code_id: string | null
           id: string
+          points_awarded: number | null
           redeemed_at: string | null
           user_id: string | null
         }
         Insert: {
           code_id?: string | null
           id?: string
+          points_awarded?: number | null
           redeemed_at?: string | null
           user_id?: string | null
         }
         Update: {
           code_id?: string | null
           id?: string
+          points_awarded?: number | null
           redeemed_at?: string | null
           user_id?: string | null
         }
@@ -279,7 +282,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      redeem_gift_code: {
+        Args: {
+          code_text: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

@@ -7,6 +7,7 @@ import Menu from "@/pages/Menu";
 import GiftCode from "@/pages/GiftCode";
 import ManageEvents from "@/pages/admin/ManageEvents";
 import ManageCodes from "@/pages/admin/ManageCodes";
+import AddPoints from "@/pages/AddPoints";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/gift-code" element={<GiftCode />} />
+          <Route path="/add-points" element={<AddPoints />} />
           <Route path="/admin/events" element={<ManageEvents />} />
           <Route path="/admin/codes" element={<ManageCodes />} />
         </Routes>

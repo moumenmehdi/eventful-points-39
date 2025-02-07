@@ -1,23 +1,49 @@
+
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { BottomNav } from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const GiftCode = () => {
   const [code, setCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    // TODO: Implement gift code validation with Supabase
-    toast({
-      title: "Not implemented",
-      description: "Gift code redemption will be implemented soon.",
-      variant: "destructive",
-    });
+    try {
+      const { data, error } = await supabase
+        .rpc('redeem_gift_code', { code_text: code });
+
+      if (error) throw error;
+
+      if (data.success) {
+        toast({
+          title: "Success!",
+          description: `You received ${data.points_awarded} points!`,
+        });
+        setCode("");
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to redeem code. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -36,13 +62,15 @@ const GiftCode = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 className="w-full bg-dark border-gray-700 text-white"
+                disabled={isLoading}
               />
             </div>
             <Button
               type="submit"
               className="w-full bg-accent hover:bg-accent/90 text-white"
+              disabled={isLoading}
             >
-              Redeem Code
+              {isLoading ? "Redeeming..." : "Redeem Code"}
             </Button>
           </form>
         </div>
