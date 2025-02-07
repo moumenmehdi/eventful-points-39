@@ -1,7 +1,8 @@
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import EventList from "@/components/EventList";
+import { EventList } from "@/components/EventList";
 import Menu from "@/pages/Menu";
 import GiftCode from "@/pages/GiftCode";
 import ManageEvents from "@/pages/admin/ManageEvents";
