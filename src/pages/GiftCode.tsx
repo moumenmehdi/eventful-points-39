@@ -27,7 +27,19 @@ const GiftCode = () => {
       const { data, error } = await supabase
         .rpc('redeem_gift_code', { code_text: code });
 
-      if (error) throw error;
+      if (error) {
+        // Check if the error is a duplicate redemption
+        if (error.message.includes("duplicate key value") || 
+            error.message.includes("already exists")) {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "You have already redeemed this code",
+          });
+          return;
+        }
+        throw error;
+      }
 
       // Cast the response to our expected type
       const response = data as RedeemGiftCodeResponse;
