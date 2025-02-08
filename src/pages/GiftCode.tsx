@@ -28,15 +28,23 @@ const GiftCode = () => {
         .rpc('redeem_gift_code', { code_text: code });
 
       if (error) {
-        // Check specifically for the unique constraint violation
-        if (error.message.includes("gift_code_redemptions_code_id_user_id_key")) {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "You have already redeemed this code",
-          });
-          return;
+        // Parse the error body if it exists
+        try {
+          const errorBody = JSON.parse(error.message);
+          // Check if this is a unique constraint violation
+          if (errorBody.code === "23505") {
+            toast({
+              variant: "destructive",
+              title: "Error",
+              description: "You have already redeemed this code",
+            });
+            setIsLoading(false);
+            return;
+          }
+        } catch (parseError) {
+          // If parsing fails, continue with generic error handling
         }
+        
         throw error;
       }
 
