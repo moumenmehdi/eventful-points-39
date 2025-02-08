@@ -28,9 +28,8 @@ const GiftCode = () => {
         .rpc('redeem_gift_code', { code_text: code });
 
       if (error) {
-        // Check if the error is a duplicate redemption
-        if (error.message.includes("duplicate key value") || 
-            error.message.includes("already exists")) {
+        // Check specifically for the unique constraint violation
+        if (error.message.includes("gift_code_redemptions_code_id_user_id_key")) {
           toast({
             variant: "destructive",
             title: "Error",
