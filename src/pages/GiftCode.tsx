@@ -38,6 +38,7 @@ const GiftCode = () => {
               title: "Error",
               description: "You have already redeemed this code",
             });
+            setCode("");
             setIsLoading(false);
             return;
           }
@@ -45,7 +46,14 @@ const GiftCode = () => {
           // If parsing fails, continue with generic error handling
         }
         
-        throw error;
+        // For other types of errors, show generic error and reset
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to redeem code. Please try again.",
+        });
+        setIsLoading(false);
+        return;
       }
 
       // Cast the response to our expected type
