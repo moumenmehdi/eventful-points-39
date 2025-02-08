@@ -28,25 +28,22 @@ const GiftCode = () => {
         .rpc('redeem_gift_code', { code_text: code });
 
       if (error) {
-        // Parse the error body if it exists
-        try {
-          const errorBody = JSON.parse(error.message);
-          // Check if this is a unique constraint violation
-          if (errorBody.code === "23505") {
-            toast({
-              variant: "destructive",
-              title: "Error",
-              description: "You have already redeemed this code",
-            });
-            setCode("");
-            setIsLoading(false);
-            return;
-          }
-        } catch (parseError) {
-          // If parsing fails, continue with generic error handling
+        // Extract the error details from the response
+        const errorBody = JSON.parse(error.message);
+        
+        // Check if this is a unique constraint violation (duplicate redemption)
+        if (errorBody && errorBody.code === "23505") {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "You have already redeemed this code",
+          });
+          setCode("");
+          setIsLoading(false);
+          return;
         }
         
-        // For other types of errors, show generic error and reset
+        // For other types of errors, show generic error message
         toast({
           variant: "destructive",
           title: "Error",
