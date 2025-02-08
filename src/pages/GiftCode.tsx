@@ -7,6 +7,13 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
+// Type for the response from redeem_gift_code function
+type RedeemGiftCodeResponse = {
+  success: boolean;
+  points_awarded?: number;
+  message?: string;
+};
+
 const GiftCode = () => {
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -22,17 +29,20 @@ const GiftCode = () => {
 
       if (error) throw error;
 
-      if (data.success) {
+      // Cast the response to our expected type
+      const response = data as RedeemGiftCodeResponse;
+
+      if (response.success) {
         toast({
           title: "Success!",
-          description: `You received ${data.points_awarded} points!`,
+          description: `You received ${response.points_awarded} points!`,
         });
         setCode("");
       } else {
         toast({
           variant: "destructive",
           title: "Error",
-          description: data.message,
+          description: response.message || "Failed to redeem code",
         });
       }
     } catch (error) {
